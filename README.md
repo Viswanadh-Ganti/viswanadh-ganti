@@ -1,5 +1,7 @@
 # Viswanadh Ganti | Portfolio
 
+🔗 **[View Live Portfolio](https://viswanadh-ganti.vercel.app/)**
+
 A responsive single-page portfolio for Viswanadh Ganti, a Full Stack Java Developer focused on reliable, scalable web applications and polished user experiences.
 
 ## Built With
