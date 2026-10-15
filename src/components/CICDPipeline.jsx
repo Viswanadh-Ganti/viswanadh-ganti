@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from '../hooks/useInView'
 
@@ -13,14 +13,11 @@ const STAGES = [
   { id: 'live',    label: 'Live',    icon: '🌐', badge: 'Grafana',   color: '#3fb950' },
 ]
 
-/* ─── Timing schedule (ms from cycle start) ─────────────────────────── */
-//                   code  build  test  scan  pkg   deploy live
-const ACTIVE_AT  = [ 300,  1100,  1900, 2700, 3500,  4300, 5100]
-const DONE_AT    = [ 700,  1500,  2300, 3100, 3900,  4700, 5500]
-const DEPLOY_IDX = 5
-const LIVE_IDX   = 6
+/* ─── Timing (ms) ────────────────────────────────────────────────────── */
+const RUN_MS       = 6000          // one continuous sweep across the whole pipeline
 const SUCCESS_HOLD = 3200          // show "deployed" banner before looping
-const CYCLE_TOTAL  = DONE_AT[LIVE_IDX] + SUCCESS_HOLD
+const DEPLOY_IDX   = 5
+const LIVE_IDX     = 6
 
 /* ─── Log events ─────────────────────────────────────────────────────── */
 const LOG_EVENTS = [
@@ -99,69 +96,80 @@ export default function CICDPipeline() {
   const [logs,       setLogs]      = useState([])
   const [deployed,   setDeployed]  = useState(false)
   const [launching,  setLaunching] = useState(false)
-  const timersRef  = useRef([])
   const logRef     = useRef(null)
-  const cycleRef   = useRef(0)
+  const fillRef    = useRef(null)
 
   /* ─── Scroll log to bottom ─────────────────────────────────────────── */
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight
   }, [logs])
 
-  /* ─── Clear all scheduled timers ──────────────────────────────────── */
-  const clearAll = useCallback(() => {
-    timersRef.current.forEach(clearTimeout)
-    timersRef.current = []
-  }, [])
+  /* ─── One continuous sweep: progress drives fill, stages and logs ──── */
+  useEffect(() => {
+    if (!inView) return undefined
 
-  /* ─── Run one animation cycle ──────────────────────────────────────── */
-  const runCycle = useCallback(() => {
-    const myId = ++cycleRef.current
+    const N = STAGES.length
+    const fillEl = fillRef.current
+    let raf = 0
+    let start = performance.now()
+    let lastKey = ''
+    let lastLogCount = -1
+    let lastDeployed = false
 
-    setStatuses(STAGES.map(() => 'pending'))
-    setLogs([])
-    setDeployed(false)
-    setLaunching(false)
-
-    const add = (fn, ms) => {
-      timersRef.current.push(setTimeout(() => { if (cycleRef.current === myId) fn() }, ms))
+    const reset = () => {
+      lastKey = ''
+      lastLogCount = -1
     }
 
-    /* Stage timers */
-    STAGES.forEach((_, i) => {
-      add(() => {
-        setStatuses(prev => { const n = [...prev]; n[i] = 'active'; return n })
-        if (i === DEPLOY_IDX) setLaunching(true)
-      }, ACTIVE_AT[i])
+    const frame = (now) => {
+      let elapsed = now - start
+      if (elapsed >= RUN_MS + SUCCESS_HOLD) {
+        start = now
+        elapsed = 0
+        reset()
+      }
 
-      add(() => {
-        setStatuses(prev => { const n = [...prev]; n[i] = 'done'; return n })
-        if (i === DEPLOY_IDX) setLaunching(false)
-        if (i === LIVE_IDX)   setDeployed(true)
-      }, DONE_AT[i])
-    })
+      const p = Math.min(elapsed / RUN_MS, 1)
+      if (fillEl) fillEl.style.transform = `scaleX(${p})`
 
-    /* Log timers */
-    LOG_EVENTS.forEach(ev => {
-      add(() => setLogs(prev => [...prev, ev]), ev.at)
-    })
+      const next = STAGES.map((_, i) => {
+        if (p >= (i + 0.5) / N) return 'done'
+        if (p >= i / N) return 'active'
+        return 'pending'
+      })
+      const key = next.join()
+      if (key !== lastKey) {
+        lastKey = key
+        setStatuses(next)
+        setLaunching(next[DEPLOY_IDX] === 'active' || (next[DEPLOY_IDX] === 'done' && next[LIVE_IDX] !== 'done'))
+      }
 
-    /* Loop */
-    add(runCycle, CYCLE_TOTAL)
-  }, [clearAll]) // eslint-disable-line react-hooks/exhaustive-deps
+      const logCount = LOG_EVENTS.filter(ev => ev.at / RUN_MS <= p).length
+      if (logCount !== lastLogCount) {
+        lastLogCount = logCount
+        setLogs(LOG_EVENTS.slice(0, logCount))
+      }
 
-  useEffect(() => {
-    if (inView) {
-      runCycle()
-    } else {
-      clearAll()
+      const isDeployed = p >= 1
+      if (isDeployed !== lastDeployed) {
+        lastDeployed = isDeployed
+        setDeployed(isDeployed)
+      }
+
+      raf = requestAnimationFrame(frame)
+    }
+
+    raf = requestAnimationFrame(frame)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      if (fillEl) fillEl.style.transform = 'scaleX(0)'
       setStatuses(STAGES.map(() => 'pending'))
       setLogs([])
       setDeployed(false)
       setLaunching(false)
     }
-    return clearAll
-  }, [inView, runCycle, clearAll])
+  }, [inView])
 
   const allDone = statuses.every(s => s === 'done')
 
@@ -201,44 +209,23 @@ export default function CICDPipeline() {
         </div>
 
         {/* ── Pipeline track ───────────────────────────────────────── */}
-        <div className="pc-track">
-          {STAGES.map((stage, i) => {
-            const status    = statuses[i]
-            const nextSt    = statuses[i + 1]
-            const fillPct   = status === 'done' ? '100%'
-                            : status === 'active' ? '55%'
-                            : '0%'
-            const flowing   = status === 'active' || status === 'done'
-
-            return (
-              <div key={stage.id} className="pc-stage-wrap">
-                <StageCard
-                  stage={stage}
-                  status={status}
-                  isLaunching={i === DEPLOY_IDX && launching}
-                  isLive={i === LIVE_IDX}
-                />
-
-                {i < STAGES.length - 1 && (
-                  <div className="pc-connector">
-                    <div className="pc-connector-bg" />
-                    <div
-                      className="pc-connector-fill"
-                      style={{ width: fillPct, background: stage.color }}
-                    />
-                    {flowing && (
-                      <>
-                        <span className="pc-dot pc-dot1" style={{ background: stage.color }} />
-                        <span className="pc-dot pc-dot2" style={{ background: stage.color }} />
-                        <span className="pc-dot pc-dot3" style={{ background: stage.color }} />
-                      </>
-                    )}
-                    <span className="pc-arrow">›</span>
-                  </div>
-                )}
+        <div className="pc-track-scroll">
+          <div className="pc-track">
+            <div className="pc-rail" aria-hidden="true">
+              <div className="pc-rail-fill" ref={fillRef}>
+                <span className="pc-rail-shine" />
               </div>
-            )
-          })}
+            </div>
+            {STAGES.map((stage, i) => (
+              <StageCard
+                key={stage.id}
+                stage={stage}
+                status={statuses[i]}
+                isLaunching={i === DEPLOY_IDX && launching}
+                isLive={i === LIVE_IDX}
+              />
+            ))}
+          </div>
         </div>
 
         {/* ── Deployed celebration banner ───────────────────────────── */}
