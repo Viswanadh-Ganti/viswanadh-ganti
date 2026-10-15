@@ -1,3 +1,6 @@
+import { motion } from 'framer-motion'
+import { useInView } from '../hooks/useInView'
+
 const recognitions = [
   {
     title: 'Support and client success',
@@ -26,13 +29,13 @@ const recognitions = [
     title: 'Guidance and support',
     issuer: 'Niti Dewan',
     detail:
-      'I hold immense gratitude for the unwavering guidance and support you have provided since my induction into the team. Your patience and eagerness to explain each of my questions have shaped my understanding and fostered a sense of trust and respect. Your commitment to helping me grow has been inspiring.',
+      'I hold immense gratitude for the unwavering guidance and support you have provided since my induction into the team. Your patience and eagerness to explain each of my questions have shaped my understanding and fostered a sense of trust and respect.',
   },
   {
     title: 'Manager Appreciation',
     issuer: 'Niti Dewan',
     detail:
-      'Congratulations, Viswanadh! I would like to recognize and appreciate Viswa for his valuable contributions to the team. He has consistently supported the resolution of customer escalations, contributed to delivering fixes across release branches, and played an important role in mentoring other team members. His technical expertise, willingness to share knowledge, and collaborative approach have helped the team address issues more effectively and deliver work successfully. Thank you, Viswa, for your continued support and commitment. Your contributions are highly appreciated.',
+      'Congratulations, Viswanadh! I would like to recognize and appreciate Viswa for his valuable contributions to the team — consistently supporting customer escalations, contributing to delivering fixes across release branches, and playing an important role in mentoring other team members.',
   },
   {
     title: 'Project onboarding and collaboration',
@@ -43,22 +46,36 @@ const recognitions = [
 ]
 
 export default function Recognition() {
-  return (
-    <section className="recognition-section" id="recognition">
-      <div className="section-header">
-        <h2>Recognition</h2>
-        <span>IBM appreciations</span>
-      </div>
+  const [ref, inView] = useInView({ threshold: 0.05 })
 
-      {recognitions.map((recognition) => (
-        <article className="recognition-entry" key={recognition.title}>
-          <div>
-            <span className="recognition-label">{recognition.issuer}</span>
-            <h3>{recognition.title}</h3>
-          </div>
-          <p>{recognition.detail}</p>
-        </article>
-      ))}
+  return (
+    <section className="recognition-section" id="recognition" ref={ref}>
+      <motion.div
+        className="section-header"
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: .5 }}
+      >
+        <h2>Recognition</h2>
+        <span className="section-tag">// IBM appreciations</span>
+      </motion.div>
+      <div className="section-divider" />
+
+      <div className="recognition-grid">
+        {recognitions.map((r, idx) => (
+          <motion.article
+            key={r.title}
+            className="recognition-card"
+            initial={{ opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: .5, delay: idx * .07 }}
+          >
+            <div className="recognition-issuer">✦ {r.issuer}</div>
+            <h3 className="recognition-title">{r.title}</h3>
+            <p className="recognition-detail">{r.detail}</p>
+          </motion.article>
+        ))}
+      </div>
     </section>
   )
 }
