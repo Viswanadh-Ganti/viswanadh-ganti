@@ -1,8 +1,12 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    App shell & layout
    ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --content-max: 1840px;
+  --page-gutter: clamp(32px, 6vw, 144px);
+}
 .app-shell {
-  width: min(1200px, calc(100% - 48px));
+  width: min(var(--content-max), calc(100% - var(--page-gutter)));
   margin: 0 auto;
   padding: 0 0 80px;
 }
@@ -30,7 +34,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 0;
-  max-width: min(1200px, calc(100% - 48px));
+  width: 100%;
   margin: 0 auto;
 }
 .brand {
@@ -162,7 +166,7 @@
   font-weight: 700;
 }
 .hero-copy h1 {
-  max-width: 720px;
+  max-width: 14em;
   margin: 0;
   color: var(--text-primary);
   font: 700 clamp(2.8rem, 6vw, 5.2rem)/.95 var(--font-display);
@@ -1103,7 +1107,7 @@
    Responsive
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .app-shell { width: min(100% - 32px, 1200px); }
+  :root { --page-gutter: 32px; }
   .navbar { flex-wrap: wrap; gap: 8px 16px; }
   .nav-links { flex-wrap: wrap; justify-content: flex-end; }
   .hero-section { grid-template-columns: 1fr; gap: 36px; min-height: auto; padding-top: 80px; }
