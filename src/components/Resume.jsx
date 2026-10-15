@@ -1,13 +1,13 @@
 const resumeExperience = [
   {
-    role: 'Back End Developer',
+    role: 'Software Engineer',
     company: 'IBM',
     period: 'Nov 2023 - Present',
     bullets: [
-      'Contribute to IBM MREF (Maximo Real Estate and Facilities, formerly TRIRIGA), an enterprise facilities and real-estate management platform deployed at large global organisations.',
-      'Contributed 340+ commits spanning feature development, security hardening, dependency management, and customer defect resolution across more than 50 work items since 2022 as part of the IBM MREF development team.',
+      'Primary focus on customer success engineering — managing prioritised customer-reported production defects, guiding the team through hard-to-reproduce issues, and driving resolution across a large enterprise facilities-management platform.',
+      'Contributed 340+ commits spanning feature development, security hardening, dependency management, and customer defect resolution across more than 50 work items.',
       'Implemented reflected XSS remediation across multiple high-traffic UI surfaces and contributed to configuring a continuous static-analysis pipeline with custom sanitizer rules and per-pull-request scanning.',
-      'Resolved critical third-party library vulnerabilities, optimized AES encryption throughput for large datasets, hardened email transport security, and delivered work within containerized OpenShift and AWS deployment pipelines using Git and Jenkins CI/CD.',
+      'Resolved critical third-party library vulnerabilities, optimised AES encryption throughput for large datasets, hardened email transport security, and delivered work within containerised OpenShift deployment pipelines using Git and Jenkins CI/CD.',
     ],
   },
   {
@@ -51,21 +51,21 @@ export default function Resume() {
     <section className="resume-section" id="resume" aria-label="Printable resume">
       <header className="resume-header">
         <h1>Viswanadh Ganti</h1>
-        <p className="resume-title">Full Stack Developer - Java | Spring Boot | React.js | Cloud (OpenShift/AWS)</p>
+        <p className="resume-title">Software Engineer - Java | Spring Boot | OpenShift | Customer Success Engineering</p>
         <p>Hyderabad, Telangana, India | +91 7075452889 | viswanadh.ganti@gmail.com</p>
-        <p><a href="https://www.linkedin.com/in/viswanadhganti/">linkedin.com/in/viswanadhganti</a></p>
+        <p><a href="https://www.linkedin.com/in/viswanadh-ganti/">linkedin.com/in/viswanadh-ganti</a></p>
       </header>
 
       <div className="resume-content">
         <section className="resume-block">
           <h2>Professional Summary</h2>
           <p>
-            Full stack engineer with 8 years working on enterprise Java systems, including 4+ years
-            contributing backend services to IBM&apos;s MREF (formerly TRIRIGA) facilities-management
-            platform, and prior experience leading a Java engineering team as Technical Lead at
-            Wipro. Strong foundation across Spring Boot, Hibernate, SQL/Oracle, React.js, and
-            containerized deployment on OpenShift/AWS, backed by hands-on delivery in Git,
-            Maven/Gradle, Jenkins CI/CD, and JIRA-driven Agile teams.
+            Software engineer with 7 years of enterprise Java experience, with a primary focus on
+            customer success engineering — managing prioritised customer-reported defects and driving
+            resolution of production issues across a large enterprise facilities-management platform.
+            Prior experience as Technical Lead at Wipro. Strong foundation in Spring Boot, Hibernate,
+            SQL/Oracle, and containerised deployment on OpenShift, backed by hands-on delivery in
+            Git, Maven/Gradle, Jenkins CI/CD, and JIRA-driven Agile teams.
           </p>
         </section>
 
@@ -101,7 +101,7 @@ export default function Resume() {
 
         <section className="resume-block">
           <h2>Awards & Recognition</h2>
-          <p><strong>Manager Appreciation</strong> - Recognized by Niti Dewan in September 2026 for resolving skill cases, backporting fixes, and mentoring team members.</p>
+          <p><strong>Manager Appreciation</strong> — Recognized by Niti Dewan for resolving customer escalations, delivering fixes across release branches, and mentoring team members.</p>
         </section>
 
         <section className="resume-block">
@@ -113,6 +113,13 @@ export default function Resume() {
           <h2>Certifications</h2>
           <p>Generative AI: Introduction and Applications</p>
           <p>2025 IBMer watsonx Challenge</p>
+          <p>Learning Apache Maven — IBM YourLearning (Credly)</p>
+          <p>Java 8 Fundamentals — IBM YourLearning (Credly)</p>
+        </section>
+
+        <section className="resume-block">
+          <h2>Currently Exploring</h2>
+          <p>Actively learning Generative AI and Agentic AI concepts, including LLM-assisted workflows and IBM watsonx. Participated in the 2025 IBMer watsonx Challenge and completed the Generative AI: Introduction and Applications course.</p>
         </section>
 
         <section className="resume-block">

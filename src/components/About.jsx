@@ -6,18 +6,18 @@ export default function About() {
         <span>Profile</span>
       </div>
       <p>
-        I am a Java backend engineer who works with development teams on enterprise systems where
-        reliability, security, and maintainability matter as much as functionality. My work spans
-        IBM&apos;s MREF (formerly TRIRIGA) facilities-management platform, FedEx logistics systems, and
-        mission-critical applications that require thoughtful backend design, production
-        troubleshooting, and secure delivery under real operational pressure.
+        I am a software engineer at IBM where my primary focus is customer success engineering —
+        handling complex customer-reported production defects, guiding teams through hard-to-reproduce
+        issues, and driving resolution across a large enterprise facilities-management platform.
+        My background spans enterprise platform development, high-throughput logistics systems, and
+        mission-critical applications that demand production troubleshooting and secure delivery
+        under real operational pressure.
       </p>
       <p>
-        My contributions have included feature work, dependency and security remediation,
-        accessibility compliance, defect resolution, and deployment tasks across OpenShift and AWS
-        environments. I also mentor engineers, contribute to code-quality standards, and help teams
-        translate business requirements into scalable, production-ready Java services with
-        measurable impact.
+        Beyond production support, my contributions include feature development, XSS and dependency
+        security remediation, accessibility compliance, defect resolution, and containerised
+        deployment on OpenShift. I also mentor engineers, set code-quality standards, and help teams
+        translate business requirements into scalable, production-ready Java services.
       </p>
     </section>
   )
