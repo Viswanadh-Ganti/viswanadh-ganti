@@ -1,51 +1,143 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
+/* ─── Design tokens ───────────────────────────────────────────────────────── */
 :root {
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-  line-height: 1.5;
+  /* Core palette – VS Code / GitHub Dark inspired */
+  --bg-base:      #0d1117;
+  --bg-surface:   #161b22;
+  --bg-elevated:  #1c2128;
+  --bg-card:      #21262d;
+  --bg-hover:     #30363d;
+
+  --border:       #30363d;
+  --border-muted: #21262d;
+
+  --text-primary:   #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted:     #484f58;
+
+  --accent:         #58a6ff;   /* electric blue */
+  --accent-green:   #3fb950;   /* terminal green */
+  --accent-orange:  #f0883e;   /* pipeline amber */
+  --accent-purple:  #bc8cff;   /* AI / watsonx */
+  --accent-red:     #ff7b72;   /* errors / alerts */
+  --accent-yellow:  #d29922;   /* warnings */
+  --accent-teal:    #39d0d8;   /* CI arrows */
+
+  --glow-blue:   0 0 20px rgba(88, 166, 255, .25);
+  --glow-green:  0 0 20px rgba(63, 185, 80, .25);
+
+  /* Font stacks */
+  --font-mono: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', monospace;
+  --font-sans: 'Inter', 'Segoe UI', sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+
+  font-family: var(--font-sans);
+  line-height: 1.6;
   font-weight: 400;
-  color: #152023;
-  background: #f5f3ee;
+  color: var(--text-primary);
+  background: var(--bg-base);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+/* ─── Reset ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f5f3ee;
-  background-image: linear-gradient(rgba(21, 32, 35, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(21, 32, 35, .035) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(88,166,255,.08) 0%, transparent 70%),
+    linear-gradient(rgba(48, 54, 61, .25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(48, 54, 61, .25) 1px, transparent 1px);
+  background-size: auto, 40px 40px, 40px 40px;
   overflow-x: hidden;
 }
 
-img {
-  max-width: 100%;
-  display: block;
+img { max-width: 100%; display: block; }
+#root { min-height: 100vh; }
+a { color: inherit; }
+h1, h2, h3, p { margin-top: 0; }
+
+/* ─── Scrollbar styling ───────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ─── Selection ───────────────────────────────────────────────────────────── */
+::selection { background: rgba(88,166,255,.25); color: var(--text-primary); }
+
+/* ─── Utility animations ──────────────────────────────────────────────────── */
+@keyframes blink-caret {
+  0%, 100% { border-color: var(--accent-green); }
+  50%       { border-color: transparent; }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .5; transform: scale(.85); }
+}
+@keyframes flow-right {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: translateX(200%); opacity: 0; }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+@keyframes matrix-fall {
+  0%   { opacity: 0; transform: translateY(-20px); }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+@keyframes ping {
+  0%      { transform: scale(1);   opacity: 1; }
+  75%,100%{ transform: scale(2.2); opacity: 0; }
+}
+@keyframes pipeline-progress {
+  0%   { width: 0%; }
+  100% { width: 100%; }
 }
 
-#root {
-  min-height: 100vh;
+/* ─── Print ───────────────────────────────────────────────────────────────── */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  :root, body { color: #172033; background: #fff; }
+  .app-shell { width: auto; margin: 0; padding: 0; }
+  .site-header, .page-content > section:not(.resume-section) { display: none; }
+  .page-content { display: block; }
+  .resume-section { display: block; color: #172033; font: 10.2pt/1.4 Arial, sans-serif; }
+  .resume-header { border-bottom: 2px solid #172033; margin-bottom: 14px; padding-bottom: 10px; text-align: center; }
+  .resume-header h1 { margin: 0; font: 700 24pt Arial, sans-serif; }
+  .resume-header p { margin: 3px 0 0; }
+  .resume-header a { color: inherit; text-decoration: none; }
+  .resume-title { font-size: 11pt; font-weight: 700; }
+  .resume-block { margin-bottom: 13px; }
+  .resume-block h2 { border-bottom: 1px solid #7c8798; font-size: 11pt; margin: 0 0 6px; padding-bottom: 2px; text-transform: uppercase; }
+  .resume-block p { margin: 0 0 5px; }
+  .resume-job { break-inside: avoid; margin-bottom: 10px; }
+  .resume-job-heading { display: flex; justify-content: space-between; gap: 10px; }
+  .resume-job h3 { font-size: 10pt; margin: 0; }
+  .resume-job-heading span { flex-shrink: 0; font-size: 9pt; }
+  .resume-job ul { margin: 3px 0 0; padding-left: 17px; }
+  .resume-job li { margin-bottom: 2px; }
 }
 
-a {
-  color: inherit;
-}
-
-h1,
-h2,
-h3,
-p {
-  margin-top: 0;
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
