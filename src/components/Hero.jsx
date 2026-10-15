@@ -2,13 +2,14 @@ export default function Hero() {
   return (
     <section className="hero-section" id="home">
       <div className="hero-copy">
-        <p className="eyebrow">Java engineer · Hyderabad, Telangana, India</p>
+        <p className="eyebrow">Software Engineer · IBM · Hyderabad, Telangana, India</p>
         <h1>Enterprise software, built to hold up.</h1>
         <p>
-          I&apos;m Viswanadh Ganti, a Java backend engineer focused on secure, scalable enterprise
-          systems. With 8 years of experience across IBM&apos;s MREF platform, logistics systems, and
-          collaborative Java engineering teams, I work on production-ready services that balance
-          reliability, performance, and maintainability.
+          I&apos;m Viswanadh Ganti, a software engineer at IBM focused on customer success engineering,
+          production support, and secure enterprise systems. With 7 years of experience across
+          enterprise facilities management, logistics platforms, and collaborative Java engineering
+          teams, I work on production-ready services that balance reliability, performance, and
+          maintainability.
         </p>
         <div className="button-row">
           <a href="#experience" className="primary-btn">
@@ -19,9 +20,9 @@ export default function Hero() {
           </a>
         </div>
         <dl className="hero-facts" aria-label="Professional highlights">
-          <div><dt>8</dt><dd>years in Java engineering</dd></div>
-          <div><dt>IBM</dt><dd>MREF / TRIRIGA platform</dd></div>
-          <div><dt>FedEx</dt><dd>high-throughput logistics systems</dd></div>
+          <div><dt>7</dt><dd>years in enterprise engineering</dd></div>
+          <div><dt>IBM</dt><dd>facilities management platform</dd></div>
+          <div><dt>4+</dt><dd>years in customer success engineering</dd></div>
         </dl>
       </div>
 
@@ -32,7 +33,7 @@ export default function Hero() {
               <img className="profile-image" src="/vswanadh.jpeg" alt="Viswanadh Ganti" />
             </picture>
         </div>
-        <p className="profile-caption">Currently building backend services at IBM.</p>
+        <p className="profile-caption">Software engineer at IBM · enterprise platform.</p>
       </div>
     </section>
   )

@@ -12,15 +12,15 @@ const recognitions = [
       'Thank you very much for all the support, guidance, and help all over this year. Expecting this to be continued further. Happy new year!',
   },
   {
-    title: 'Skill cases, APARs, and security',
+    title: 'Customer escalations and security',
     issuer: 'Ashok Janagam',
     detail:
-      'Thank you for the great work! You have done a good job on skill cases, APARs, and security defect resolutions in 2025. Special thanks for the strong collaboration and dedicated efforts on XSS mitigation. Keep up the outstanding work!',
+      'Thank you for the great work! You have done a good job on customer escalations, production defect resolutions, and security fixes in 2025. Special thanks for the strong collaboration and dedicated efforts on XSS mitigation. Keep up the outstanding work!',
   },
   {
-    title: 'Customer Engineering',
+    title: 'Customer success engineering',
     issuer: 'Sudhir Kumar Allamshetti',
-    detail: 'Thanks for all the good work in 2025, especially the Customer Engineering part. Keep up the good work!',
+    detail: 'Thanks for all the good work in 2025, especially the customer success engineering part. Keep up the good work!',
   },
   {
     title: 'Guidance and support',
@@ -32,7 +32,7 @@ const recognitions = [
     title: 'Manager Appreciation',
     issuer: 'Niti Dewan',
     detail:
-      'Congratulations, Viswanadh! I would like to recognize and appreciate Viswa for his valuable contributions to the team. He has consistently supported the resolution of skill cases, contributed to backporting fixes, and played an important role in mentoring other team members. His technical expertise, willingness to share knowledge, and collaborative approach have helped the team address issues more effectively and deliver work successfully. Thank you, Viswa, for your continued support and commitment. Your contributions are highly appreciated.',
+      'Congratulations, Viswanadh! I would like to recognize and appreciate Viswa for his valuable contributions to the team. He has consistently supported the resolution of customer escalations, contributed to delivering fixes across release branches, and played an important role in mentoring other team members. His technical expertise, willingness to share knowledge, and collaborative approach have helped the team address issues more effectively and deliver work successfully. Thank you, Viswa, for your continued support and commitment. Your contributions are highly appreciated.',
   },
   {
     title: 'Project onboarding and collaboration',
@@ -51,7 +51,7 @@ export default function Recognition() {
       </div>
 
       {recognitions.map((recognition) => (
-        <article className="recognition-entry" key={recognition.issuer}>
+        <article className="recognition-entry" key={recognition.title}>
           <div>
             <span className="recognition-label">{recognition.issuer}</span>
             <h3>{recognition.title}</h3>

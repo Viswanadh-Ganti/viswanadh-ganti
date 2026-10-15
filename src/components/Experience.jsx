@@ -1,10 +1,10 @@
 const experience = [
   {
-    role: 'Back End Developer',
+    role: 'Software Engineer',
     company: 'IBM',
     period: 'Nov 2023 — Present',
     summary:
-      'Work with the IBM MREF team on feature development, security hardening, dependency upgrades, customer defect remediation, and deployment across OpenShift and AWS pipelines. Contributions span 340+ commits and 50+ work items across a large, mission-critical platform.',
+      'Primary focus on customer success engineering — managing prioritised customer-reported defects, guiding the team through hard-to-reproduce production issues, and driving resolution across a large enterprise facilities-management platform. Broader contributions span feature development, XSS and dependency security hardening, and containerised OpenShift deployment across 340+ commits and 50+ work items.',
   },
   {
     role: 'Technical Lead',

@@ -15,6 +15,10 @@ const skillGroups = [
     title: 'Practices & leadership',
     items: ['Agile/Scrum', 'JIRA', 'Sprint planning', 'Code review standards', 'Mentoring', 'Unit testing', 'TDD'],
   },
+  {
+    title: 'Currently exploring',
+    items: ['Generative AI', 'Agentic AI', 'watsonx', 'LLM-assisted workflows', 'AI in enterprise systems'],
+  },
 ]
 
 export default function Skills() {
